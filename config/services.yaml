@@ -1,51 +1,10 @@
 parameters:
-    api:
-        telegram_bot:
-            enable: true
-            connection:
-                telegram:
-                    host:
-                        name: 'host'
-                        value: 'https://api.telegram.org/bot%env(TELEGRAM_BOT_KEY)%'
-                telegram_files:
-                    host:
-                        name: 'host'
-                        value: 'https://api.telegram.org/file/bot%env(TELEGRAM_BOT_KEY)%'
-                self_host:
-                    host:
-                        name: 'host'
-                        value: '%env(SELF_HOST)%'
-            endpoints:
-                webhook_register:
-                    connection: 'telegram'
-                    method: 'GET'
-                    path: '/setwebhook'
-                    fields:
-                        url:
-                            name: 'url'
-                            type: 'string'
-                            default: '{api|telegram_bot|connection|self_host|host|value}/telegram/sdk/bot/entrypoint'
-                message_send:
-                    connection: 'telegram'
-                    method: 'POST'
-                    path: '/sendmessage'
-                get_file_info:
-                    connection: 'telegram'
-                    method: 'GET'
-                    path: 'getFile'
-                download_file:
-                    connection: 'telegram_files'
-                    method: 'GET'
-                    path: ''
-                send_message:
-                    connection: 'telegram'
-                    method: 'POST'
-                    path: 'sendMessage'
+    access_tokens: '%env(ACCESS_TOKENS)%'
 
 services:
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
     App\:
         resource: '../src/'
@@ -54,3 +13,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    event_subscribers:
+        namespace: App\Event\Subscriber\
+        resource: '../src/Event/Subscriber'
+        arguments: [ '@parameter_bag', '@logger' ]
+        tags: [event_subscriber]

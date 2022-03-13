@@ -1,16 +1,11 @@
 {
-    "name": "vladyslavdrybas/printerbot",
-    "description": "printerbot",
+    "name": "vladyslavdrybas/symfonybase",
+    "description": "symfonybase",
     "type": "project",
     "license": "proprietary",
     "keywords": [
-        "symfony",
-        "print on demand",
-        "telegram bot",
-        "bot",
-        "telegram"
+        "symfonybase"
     ],
-    "homepage": "https://github.com/vladyslavdrybas/printerbot",
     "authors": [
         {
             "name": "Vladyslav Drybas"
@@ -20,74 +15,28 @@
     "prefer-stable": true,
     "require": {
         "php": "~8.0.0",
-        "ext-amqp": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "ext-sockets": "*",
-        "ext-xml": "*",
-        "ext-imagick": "*",
-        "symfony/runtime": "5.4.*",
-        "composer/package-versions-deprecated": "1.*",
         "doctrine/annotations": "1.*",
-        "doctrine/collections": "1.*",
-        "doctrine/dbal": "2.*",
-        "doctrine/doctrine-bundle": "2.*",
-        "doctrine/doctrine-migrations-bundle": "3.*",
-        "doctrine/inflector": "2.*",
-        "doctrine/migrations": "3.*",
-        "doctrine/orm": "2.*",
-        "gedmo/doctrine-extensions": "3.*",
-        "phpdocumentor/reflection-docblock": "5.3.*",
-        "stof/doctrine-extensions-bundle": "1.*",
-        "symfony/asset": "5.4.*",
-        "symfony/console": "5.4.*",
-        "symfony/doctrine-bridge": "5.4.*",
-        "symfony/dotenv": "5.4.*",
-        "symfony/expression-language": "5.4.*",
+        "phpstan/phpdoc-parser": "^1.2",
+        "symfony/console": "6.0.*",
+        "symfony/dotenv": "6.0.*",
         "symfony/flex": "^1.17",
-        "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4",
-        "symfony/http-client": "5.4.*",
-        "symfony/intl": "5.4.*",
-        "symfony/mailer": "5.4.*",
-        "symfony/mime": "5.4.*",
+        "symfony/http-client": "6.0.*",
         "symfony/monolog-bundle": "3.*",
-        "symfony/notifier": "5.4.*",
-        "symfony/process": "5.4.*",
-        "symfony/property-access": "5.4.*",
-        "symfony/security-bundle": "5.4.*",
-        "symfony/serializer": "5.4.*",
-        "symfony/string": "5.4.*",
-        "symfony/translation": "5.4.*",
-        "symfony/twig-bundle": "5.4.*",
-        "symfony/uid": "5.4.*",
-        "symfony/validator": "5.4.*",
-        "symfony/web-link": "5.4.*",
-        "symfony/webpack-encore-bundle": "1.13.*",
-        "symfony/workflow": "5.4.*",
-        "symfony/yaml": "5.4.*",
-        "twig/extra-bundle": "3.*",
-        "twig/twig": "3.*",
-        "php-amqplib/php-amqplib": "3.*",
-        "symfony/amqp-messenger": "5.4.*"
+        "symfony/property-access": "6.0.*",
+        "symfony/property-info": "6.0.*",
+        "symfony/runtime": "6.0.*",
+        "symfony/serializer": "6.0.*",
+        "symfony/twig-bundle": "6.0.*",
+        "symfony/yaml": "6.0.*"
     },
     "require-dev": {
-        "hautelook/alice-bundle": "^2.7",
-        "jetbrains/phpstorm-attributes": "^1.0",
-        "phpmd/phpmd": "^2.9",
-        "phpstan/phpstan-symfony": "^0.12.19",
-        "phpunit/phpunit": "^9.5",
-        "sebastian/phpcpd": "^6.0",
-        "squizlabs/php_codesniffer": "^3.5",
-        "symfony/browser-kit": "5.4.*",
-        "symfony/css-selector": "5.4.*",
-        "symfony/debug-bundle": "5.4.*",
+        "symfony/debug-bundle": "6.0.*",
         "symfony/maker-bundle": "^1.0",
-        "symfony/stopwatch": "5.4.*",
-        "symfony/var-dumper": "5.4.*",
-        "symfony/web-profiler-bundle": "5.4.*",
-        "vimeo/psalm": "^4.6"
+        "symfony/var-dumper": "6.0.*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -99,11 +48,6 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
         }
     },
     "replace": {
@@ -121,17 +65,6 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ],
-        "check-code": [
-            "vendor/bin/phpmd src,public ansi phpmd.xml",
-            "vendor/bin/psalm --config=psalm.xml --show-info=true",
-            "vendor/bin/phpcpd --exclude vendor --exclude var .",
-            "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G",
-            "vendor/bin/phpcs --standard=phpcs.xml",
-            "bin/console doctrine:schema:validate --skip-sync"
-        ],
-        "test": [
-            "APP_ENV=test ./vendor/bin/phpunit --testdox --configuration ./phpunit.xml"
         ]
     },
     "conflict": {
@@ -140,7 +73,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "6.0.*"
         }
     }
 }

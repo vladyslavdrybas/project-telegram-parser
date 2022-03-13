@@ -6,11 +6,3 @@ kernel:
     resource: ../../src/Kernel.php
     type: annotation
 
-leo_telegram_sdk_controllers:
-    resource: '../../src/Bundle/LeoTelegramSdk/Controller/'
-    type: annotation
-    # this is added to the beginning of all imported route URLs
-    prefix: '/telegram/sdk'
-    # this is added to the beginning of all imported route names
-    name_prefix: 'telegram_sdk_'
-

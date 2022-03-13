@@ -2,7 +2,6 @@
 # https://docs.docker.com/compose/compose-file/#target
 
 ARG PHP_VERSION=8.0
-ARG NODE_VERSION=14.0
 ARG NGINX_VERSION=1.21
 
 FROM php:${PHP_VERSION}-fpm-alpine AS app_php
@@ -19,33 +18,16 @@ RUN apk update \
     curl \
     gcc \
 	g++ \
-	rabbitmq-c-dev \
 	icu-dev \
     autoconf \
-    ffmpeg \
-	libjpeg-turbo-dev \
-	libpng-dev \
-	libjpeg-turbo-dev \
 	freetype \
 	freetype-dev \
-	imagemagick \
-	imagemagick-dev \
-	imagemagick-libs \
-    postgresql-dev \
     php8-intl \
 	php8-pecl-apcu \
-    php8-pecl-amqp \
-    php8-pecl-redis \
-    php8-json \
-    php8-xml \
-    php8-gd
+    php8-json
 
-RUN docker-php-ext-configure gd --with-jpeg --with-freetype
-RUN docker-php-ext-install gd pdo pdo_pgsql pdo_mysql iconv bcmath pcntl sockets
+RUN docker-php-ext-install bcmath pcntl sockets
 
-RUN pecl install redis-5.3.4 && docker-php-ext-enable redis
-RUN pecl install amqp && docker-php-ext-enable amqp
-RUN pecl install imagick && docker-php-ext-enable imagick
 
 RUN echo "UTC" > /etc/timezone
 
@@ -72,48 +54,14 @@ COPY bin bin/
 COPY config config/
 COPY public public/
 COPY src src/
-COPY templates templates/
-COPY translations translations/
 
 RUN composer dump-autoload --optimize
-
-COPY ./cron.sh /usr/local/bin/cron
-RUN chmod +x /usr/local/bin/cron
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
-
-FROM node:${NODE_VERSION}-alpine AS app_nodejs
-
-ARG NODE_ENV=dev
-
-WORKDIR /srv/app
-
-RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
-		g++ \
-		gcc \
-		git \
-		make \
-		python \
-	;
-
-# prevent the reinstallation of vendors at every changes in the source code
-COPY package.json ./
-COPY yarn.lock ./
-
-RUN set -eux; \
-	yarn install; \
-	yarn cache clean
-
-COPY docker/nodejs/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
-
-ENTRYPOINT ["docker-entrypoint"]
-CMD ["yarn", "watch"]
 
 FROM nginx:${NGINX_VERSION}-alpine AS app_nginx
 
