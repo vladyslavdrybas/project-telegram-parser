@@ -6,7 +6,7 @@ x-php-variables: &php-environment
         - APP_ENV=${APP_ENV:-dev}
         - APP_DEBUG=${APP_DEBUG:-1}
         - APP_SECRET=${APP_SECRET:-4a4fc495450d79e93c3e00346333a372}
-        - NGINX_PUBLIC_PORT=${NGINX_PUBLIC_PORT:-101}
+        - NGINX_PUBLIC_PORT=${NGINX_PUBLIC_PORT:-81}
         - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
         - JAWSDB_URL=${APP_DEBUG:-mysql://app:nopassword@mysql/app}
         - MAILER_URL=${MAILER_URL:-smtp://mailhog:1025}

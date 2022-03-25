@@ -15,6 +15,6 @@ services:
 
   nginx:
       ports:
-        - ${NGINX_PUBLIC_PORT:-101}:80
+        - ${NGINX_PUBLIC_PORT:-81}:80
 volumes:
     db_data: {}

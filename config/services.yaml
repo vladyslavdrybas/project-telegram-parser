@@ -1,5 +1,7 @@
 parameters:
     access_tokens: '%env(ACCESS_TOKENS)%'
+    store_link_api: '%env(STORE_LINK_API)%'
+    store_link_api_token: '%env(STORE_LINK_API_TOKEN)%'
 
 services:
     _defaults:
@@ -23,3 +25,31 @@ services:
         resource: '../src/Event/Subscriber'
         arguments: [ '@parameter_bag', '@logger' ]
         tags: [event_subscriber]
+
+    App\Services\HasWordsPostTransformer:
+        class: App\Services\HasWordsPostTransformer
+        arguments:
+            $words: '%env(WORDS_FILTER_PHRASES)%'
+
+    App\Services\CanHaveLinksPostTransformer:
+        class: App\Services\CanHaveLinksPostTransformer
+        arguments:
+            $whitelist: '%env(TELEGRAM_FILTER_WHITELIST)%'
+
+    App\Services\EvilLinksGrabber:
+        class: App\Services\EvilLinksGrabber
+        arguments:
+            $sources: '%env(GRABBER_SOURCES)%'
+            $transformers:
+                - '@App\Services\HasWordsPostTransformer'
+                - '@App\Services\AuthorPostTransformer'
+                - '@App\Services\TelegramLinksPostTransformer'
+                - '@App\Services\YoutubeLinksPostTransformer'
+                - '@App\Services\TwitterLinksPostTransformer'
+                - '@App\Services\CanHaveLinksPostTransformer'
+                - '@App\Services\NoEmptyLinksPostTransformer'
+                - '@App\Services\TimePostTransformer'
+                - '@App\Services\ViewsPostTransformer'
+
+    App\Services\EvilLinksGrabberInterface $evilLinksGrabber: '@App\Services\EvilLinksGrabber'
+    App\Services\EvilLinksGrabberInterface: '@App\Services\EvilLinksGrabber'

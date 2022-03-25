@@ -18,16 +18,33 @@ RUN apk update \
     curl \
     gcc \
 	g++ \
+	rabbitmq-c-dev \
 	icu-dev \
     autoconf \
+    ffmpeg \
+	libjpeg-turbo-dev \
+	libpng-dev \
+	libjpeg-turbo-dev \
 	freetype \
 	freetype-dev \
+	imagemagick \
+	imagemagick-dev \
+	imagemagick-libs \
+    postgresql-dev \
     php8-intl \
 	php8-pecl-apcu \
-    php8-json
+    php8-pecl-amqp \
+    php8-pecl-redis \
+    php8-json \
+    php8-xml \
+    php8-gd
 
-RUN docker-php-ext-install bcmath pcntl sockets
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype
+RUN docker-php-ext-install gd pdo pdo_pgsql pdo_mysql iconv bcmath pcntl sockets
 
+RUN pecl install redis-5.3.4 && docker-php-ext-enable redis
+RUN pecl install amqp && docker-php-ext-enable amqp
+RUN pecl install imagick && docker-php-ext-enable imagick
 
 RUN echo "UTC" > /etc/timezone
 
@@ -44,9 +61,6 @@ WORKDIR /srv/app
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.* ./
-#RUN set -eux; \
-#	composer install --prefer-dist --no-autoloader --no-scripts --no-progress; \
-#	composer clear-cache \
 
 # copy only specifically what we need
 COPY .env* ./
@@ -54,6 +68,7 @@ COPY bin bin/
 COPY config config/
 COPY public public/
 COPY src src/
+COPY templates templates/
 
 RUN composer dump-autoload --optimize
 
