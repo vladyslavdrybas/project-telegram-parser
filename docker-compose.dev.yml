@@ -7,6 +7,8 @@ x-php-variables: &php-environment
         - APP_DEBUG=${APP_DEBUG:-1}
         - APP_SECRET=${APP_SECRET:-APPSECRETEDITME}
         - ACCESS_TOKENS=${ACCESS_TOKENS:-ACCESS_TOKEN}
+        - STORE_LINK_API=${STORE_LINK_API}
+        - STORE_LINK_API_TOKEN=${STORE_LINK_API_TOKEN}
 
 services:
   php:

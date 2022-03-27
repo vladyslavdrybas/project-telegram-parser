@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Services\EvilLinksGrabber;
 
-use App\Services\CanHaveLinksPostTransformer;
-use App\Services\EvilLinksGrabber;
-use App\Services\HasWordsPostTransformer;
-use App\Services\NoEmptyLinksPostTransformer;
-use App\Services\AuthorPostTransformer;
-use App\Services\TelegramLinksPostTransformer;
-use App\Services\TimePostTransformer;
-use App\Services\TwitterLinksPostTransformer;
-use App\Services\ViewsPostTransformer;
-use App\Services\YoutubeLinksPostTransformer;
+use App\Services\EvilLinks\AuthorPostTransformer;
+use App\Services\EvilLinks\CanHaveLinksPostTransformer;
+use App\Services\EvilLinks\EvilLinksGrabber;
+use App\Services\EvilLinks\HasWordsPostTransformer;
+use App\Services\EvilLinks\NoEmptyLinksPostTransformer;
+use App\Services\EvilLinks\TelegramLinksPostTransformer;
+use App\Services\EvilLinks\TimePostTransformer;
+use App\Services\EvilLinks\TwitterLinksPostTransformer;
+use App\Services\EvilLinks\ViewsPostTransformer;
+use App\Services\EvilLinks\YoutubeLinksPostTransformer;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

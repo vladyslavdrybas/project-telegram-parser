@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\EvilLinks;
 
 use App\Transfer\LinkTransfer;
 use App\Transfer\TelegramPostTransfer;
@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_key_exists;
 use function array_shift;
-use function array_unshift;
 use function json_decode;
 use function json_last_error;
 use function json_last_error_msg;
@@ -31,7 +30,7 @@ class EvilLinksGrabber implements EvilLinksGrabberInterface
     protected ParameterBagInterface $parameterBag;
     protected array $sources;
     /**
-     * @var \App\Services\PostTransformerInterface[]
+     * @var \App\Services\EvilLinks\PostTransformerInterface[]
      */
     protected array $transformers;
 

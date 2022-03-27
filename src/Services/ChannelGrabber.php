@@ -93,7 +93,7 @@ class ChannelGrabber
                     $leoinfohub . '/post?apikey=' . $token,
                     [
                         'json' => [
-                            'channel' => $channel['title'],
+                            'channelTitle' => $channel['title'],
                             'postNumber' => $postNumber,
                             'meta' => base64_encode($telegramPost->html()),
                         ],

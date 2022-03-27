@@ -26,30 +26,30 @@ services:
         arguments: [ '@parameter_bag', '@logger' ]
         tags: [event_subscriber]
 
-    App\Services\HasWordsPostTransformer:
-        class: App\Services\HasWordsPostTransformer
+    App\Services\EvilLinks\HasWordsPostTransformer:
+        class: App\Services\EvilLinks\HasWordsPostTransformer
         arguments:
             $words: '%env(WORDS_FILTER_PHRASES)%'
 
-    App\Services\CanHaveLinksPostTransformer:
-        class: App\Services\CanHaveLinksPostTransformer
+    App\Services\EvilLinks\CanHaveLinksPostTransformer:
+        class: App\Services\EvilLinks\CanHaveLinksPostTransformer
         arguments:
             $whitelist: '%env(TELEGRAM_FILTER_WHITELIST)%'
 
-    App\Services\EvilLinksGrabber:
-        class: App\Services\EvilLinksGrabber
+    App\Services\EvilLinks\EvilLinksGrabber:
+        class: App\Services\EvilLinks\EvilLinksGrabber
         arguments:
             $sources: '%env(GRABBER_SOURCES)%'
             $transformers:
-                - '@App\Services\HasWordsPostTransformer'
-                - '@App\Services\AuthorPostTransformer'
-                - '@App\Services\TelegramLinksPostTransformer'
-                - '@App\Services\YoutubeLinksPostTransformer'
-                - '@App\Services\TwitterLinksPostTransformer'
-                - '@App\Services\CanHaveLinksPostTransformer'
-                - '@App\Services\NoEmptyLinksPostTransformer'
-                - '@App\Services\TimePostTransformer'
-                - '@App\Services\ViewsPostTransformer'
+                - '@App\Services\EvilLinks\HasWordsPostTransformer'
+                - '@App\Services\EvilLinks\AuthorPostTransformer'
+                - '@App\Services\EvilLinks\TelegramLinksPostTransformer'
+                - '@App\Services\EvilLinks\YoutubeLinksPostTransformer'
+                - '@App\Services\EvilLinks\TwitterLinksPostTransformer'
+                - '@App\Services\EvilLinks\CanHaveLinksPostTransformer'
+                - '@App\Services\EvilLinks\NoEmptyLinksPostTransformer'
+                - '@App\Services\EvilLinks\TimePostTransformer'
+                - '@App\Services\EvilLinks\ViewsPostTransformer'
 
-    App\Services\EvilLinksGrabberInterface $evilLinksGrabber: '@App\Services\EvilLinksGrabber'
-    App\Services\EvilLinksGrabberInterface: '@App\Services\EvilLinksGrabber'
+    App\Services\EvilLinks\EvilLinksGrabberInterface $evilLinksGrabber: '@App\Services\EvilLinks\EvilLinksGrabber'
+    App\Services\EvilLinks\EvilLinksGrabberInterface: '@App\Services\EvilLinks\EvilLinksGrabber'
