@@ -57,6 +57,17 @@ class ChannelGrabber
             $channels = $response->toArray(false);
 
             foreach ($channels as $channel) {
+                if (!array_key_exists('source', $channel)) {
+                    continue;
+                }
+
+                if (!array_key_exists('title', $channel['source'])) {
+                    continue;
+                }
+
+                if ($channel['source']['title'] !== 'telegram') {
+                    continue;
+                }
 
                 $response = $this->client->request(
                     'GET',
