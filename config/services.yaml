@@ -51,5 +51,11 @@ services:
                 - '@App\Services\EvilLinks\TimePostTransformer'
                 - '@App\Services\EvilLinks\ViewsPostTransformer'
 
+    App\Services\MinePosts:
+        class: App\Services\MinePosts
+        arguments:
+            $minerServices:
+                social-media-links: '@App\Services\SocialMediaLinkMinerPost'
+
     App\Services\EvilLinks\EvilLinksGrabberInterface $evilLinksGrabber: '@App\Services\EvilLinks\EvilLinksGrabber'
     App\Services\EvilLinks\EvilLinksGrabberInterface: '@App\Services\EvilLinks\EvilLinksGrabber'
