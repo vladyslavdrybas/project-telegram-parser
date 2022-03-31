@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Transfer\MinerTransfer;
+use App\Transfer\PostTransfer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -14,6 +17,7 @@ use function array_key_exists;
 class MinePosts extends AbstractService
 {
     protected array $minerServices;
+    protected DenormalizerInterface $denormalizer;
 
     public function __construct(
         HttpClientInterface $client,
@@ -21,10 +25,12 @@ class MinePosts extends AbstractService
         ParameterBagInterface $parameterBag,
         SerializerInterface $serializer,
         NormalizerInterface $normalizer,
+        DenormalizerInterface $denormalizer,
         array $minerServices
     ) {
         parent::__construct($client, $logger, $parameterBag, $serializer, $normalizer);
         $this->minerServices = $minerServices;
+        $this->denormalizer = $denormalizer;
     }
 
     public function execute(string $minerTitle): bool
@@ -73,7 +79,9 @@ class MinePosts extends AbstractService
             }
 
             $miner = $data['miner'];
+            $miner = $this->denormalizer->denormalize($miner, MinerTransfer::class);
             foreach ($data['posts'] as $post) {
+                $post = $this->denormalizer->denormalize($post, PostTransfer::class);
                 $minerService->execute($miner, $post);
             }
         } catch (\Exception $e) {
